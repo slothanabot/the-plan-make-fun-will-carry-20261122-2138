@@ -1,8 +1,8 @@
 """make.fun entry: The plan make.fun will carry out in public.
 
-When run in a sandbox with no network, writes /output/entry.txt:
-a plan an AI agent can carry out itself to turn $100 into the most
-money in 30 days (1-280 Unicode code points).
+Running this script writes the plan to entry.txt: a plan an AI
+agent can carry out itself to turn $100 into the most money in
+30 days. The plan is 269 characters, within the 1-280 limit.
 """
 
 import os
@@ -17,6 +17,15 @@ PLAN = (
 
 
 def main() -> None:
+    """Validate the plan and write it to entry.txt.
+
+    The entry must be 1-280 Unicode code points and contain more
+    than whitespace, per the competition rules.
+    """
+    if not 1 <= len(PLAN) <= 280 or not PLAN.strip():
+        raise SystemExit(
+            "entry must be 1-280 Unicode code points and not only whitespace"
+        )
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
